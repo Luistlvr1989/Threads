@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include <thread>
 #include <mutex>
+#include <atomic>
 
 using namespace std;
 
 #define NUM_THREADS 10
 
 int counter = 0;
+//atomic<int> counter(0);
 mutex mtx;
 
 void threadAction(int id);
@@ -31,9 +33,12 @@ int main(int argc, char *argv[]) {
     return EXIT_SUCCESS;
 }
 
+
 void threadAction(int id) {
     mtx.lock();
     printf("(%d) counter = %d\n", id, ++counter);
     mtx.unlock();
-
 }
+
+// TODO
+// Multiplicación de matrices en paralelo
