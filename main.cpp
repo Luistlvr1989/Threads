@@ -15,9 +15,13 @@ int main(int argc, char *argv[]) {
     thread threads[NUM_THREADS];
 
     for (int i = 0; i < NUM_THREADS; ++i) {
-        threads[i] = thread(threadAction, i);
+        threads[i] = thread([](int id) { 
+            cout << this_thread::get_id();
+            cout << "Launched by thread " << id << endl;
+        }, i);
     }
 
+    // We have to wait for the threads, otherwise the main thread may finish first
     for (int i = 0; i < NUM_THREADS; ++i) {
         threads[i].join();
     }
