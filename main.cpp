@@ -1,9 +1,12 @@
 #include <iostream>
+#include <stdio.h>
 #include <thread>
 
 using namespace std;
 
 #define NUM_THREADS 10
+
+int counter = 0;
 
 void threadAction(int id);
 
@@ -15,10 +18,7 @@ int main(int argc, char *argv[]) {
     thread threads[NUM_THREADS];
 
     for (int i = 0; i < NUM_THREADS; ++i) {
-        threads[i] = thread([](int id) { 
-            cout << this_thread::get_id();
-            cout << "Launched by thread " << id << endl;
-        }, i);
+        threads[i] = thread(threadAction, i);
     }
 
     // We have to wait for the threads, otherwise the main thread may finish first
@@ -30,5 +30,5 @@ int main(int argc, char *argv[]) {
 }
 
 void threadAction(int id) {
-    cout << "Launched by thread " << id << endl;
+    printf("(%d) counter = %d\n", id, ++counter);
 }
